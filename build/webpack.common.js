@@ -20,12 +20,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /.(js|jsx)$/,
+        test: /\.(js|jsx)$/,
         include: [srcDir],
         use: ["babel-loader"]
       },
       {
-        test: /.css$/,
+        test: /\.css$/,
         include: [srcDir],
         use: [
           isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -34,17 +34,24 @@ module.exports = {
         ],
       },
       {
-        test: /.less$/,
+        test: /\.less$/,
         include: [srcDir],
         use: [
           isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              }
+            }
+          },
           'postcss-loader',
           'less-loader',
         ],
       },
       {
-        test: /.(png|jpe?g|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg)$/,
         type: 'asset',
         parser: {
           dataUrlCondition: {
@@ -56,7 +63,7 @@ module.exports = {
         }
       },
       {
-        test: /.(mp4|webm|ogg|mp3|wav|flac|aac)$/,
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/,
         type: 'asset',
         parser: {
           dataUrlCondition: {
@@ -68,7 +75,7 @@ module.exports = {
         }
       },
       {
-        test: /.(woff2?|eot|ttf|otf)$/,
+        test: /\.(woff2?|eot|ttf|otf)$/,
         type: 'asset',
         parser: {
           dataUrlCondition: {
