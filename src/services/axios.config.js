@@ -22,8 +22,9 @@ service.interceptors.request.use((config) => {
 
 // 响应拦截
 service.interceptors.response.use((response) => {
-  if (response.code) {
-    switch (response.code) {
+  const code = response.code || response.status
+  if (code) {
+    switch (code) {
       case 200:
         return response.data;
       case 401:
